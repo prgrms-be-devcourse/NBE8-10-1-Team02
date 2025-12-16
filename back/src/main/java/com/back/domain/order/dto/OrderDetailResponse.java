@@ -13,9 +13,9 @@ public class OrderDetailResponse {
     private final String email;
     private final String address;
     private final String postcode;
-    private final List<OrderItemDto> orderItems;
+    private final List<OrderItemResponseDto> orderItems;
 
-    public OrderDetailResponse(Order order, List<OrderItemDto> orderItems){
+    public OrderDetailResponse(Order order, List<OrderItemResponseDto> orderItems){
         this.id = order.getId();
         this.createDate = order.getCreateDate();
         this.email = order.getEmail();
