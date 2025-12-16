@@ -4,15 +4,15 @@ import com.back.domain.order.entity.OrderItem;
 
 public record OrderItemResponseDto(
     int id,
-    int orderId,
     int itemId,
+    String itemName,
     int quantity
 ) {
     public static OrderItemResponseDto from(OrderItem orderItem) {
         return new OrderItemResponseDto(
             orderItem.getId(),
-            orderItem.getOrder().getId(),
             orderItem.getItem().getId(),
+            orderItem.getItem().getItemName(),
             orderItem.getQuantity()
         );
     }
