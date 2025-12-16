@@ -2,7 +2,6 @@ package com.back.domain.order.entity;
 
 import com.back.global.jpa.entity.BaseEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
