@@ -62,6 +62,8 @@ yarn-error.log*
 !/back/**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+.idea/
+*.iml
 /back/.idea
 /back/*.iws
 /back/*.iml
