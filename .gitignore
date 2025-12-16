@@ -1,0 +1,85 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/front/node_modules
+/front/.pnp
+/front/.pnp.*
+/front/.yarn/*
+!/front/.yarn/patches
+!/front/.yarn/plugins
+!/front/.yarn/releases
+!/front/.yarn/versions
+
+# testing
+/front/coverage
+
+# next.js
+/front/.next/   # Next.js 빌드 캐시 폴더
+/front/out/     # Next.js export 폴더
+
+# production
+/front/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+/front/.env* # front 폴더 내의 환경 변수 파일
+
+# vercel
+/front/.vercel
+
+# typescript
+/front/*.tsbuildinfo
+/front/next-env.d.ts
+
+# Spring Project Directory Prefix
+# /back/
+
+/back/.gradle
+/back/build/
+!/back/gradle/wrapper/gradle-wrapper.jar
+!/back/**/src/main/**/build/
+!/back/**/src/test/**/build/
+
+### STS (Spring Tool Suite) ###
+/back/.apt_generated
+/back/.classpath
+/back/.factorypath
+/back/.project
+/back/.settings
+/back/.springBeans
+/back/.sts4-cache
+/back/bin/
+!/back/**/src/main/**/bin/
+!/back/**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+/back/.idea
+/back/*.iws
+/back/*.iml
+/back/*.ipr
+/back/out/
+!/back/**/src/main/**/out/
+!/back/**/src/test/**/out/
+
+### NetBeans ###
+/back/nbproject/private/
+/back/nbbuild/
+/back/dist/
+/back/nbdist/
+/back/.nb-gradle/
+
+### VS Code ###
+/back/.vscode/
+
+### Custom (H2 Database Files) ###
+/back/db_dev.mv.db
+/back/db_dev.trace.db
