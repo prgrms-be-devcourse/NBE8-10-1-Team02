@@ -1,7 +1,7 @@
 ---
 name: default
 about: Describe this issue template's purpose here.
-title: ''
+title: "[Feat] 00기능 개발"
 labels: ''
 assignees: ''
 
