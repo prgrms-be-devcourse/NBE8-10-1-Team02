@@ -25,6 +25,14 @@ public class ApiV1OrderController {
     }
 
     //주문 내역 조회 (비회원 – 이메일 기준) GET /api/orders?email=test@example.com
+    @GetMapping
+    public List<OrderResponse> getOrders(@RequestParam(name = "email") String email) {
+        List<Order> orders = orderService.getOrdersByEmail(email);
+
+        return orders.stream()
+                .map(OrderResponse::new)
+                .toList();
+    }
 
     //주문 상세 조회 GET /api/orders/{orderId}
     @GetMapping("/{orderId}")
