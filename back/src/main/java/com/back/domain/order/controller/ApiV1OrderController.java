@@ -26,8 +26,8 @@ public class ApiV1OrderController {
 
     //주문 상세 조회 GET /api/orders/{orderId}
     @GetMapping("/{orderId}")
-    public RsData<OrderDetailResponse> getOrder(@PathVariable int orderId) {
-        return new RsData<>("200-1", "조회 성공", orderService.getOrderDetail(orderId));
+    public OrderDetailResponse getOrder(@PathVariable int orderId) {
+        return orderService.getOrderDetail(orderId);
     }
 
     //주문 수정 PUT /api/orders/{orderId}
