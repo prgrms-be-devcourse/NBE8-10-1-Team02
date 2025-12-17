@@ -1,6 +1,7 @@
 package com.back.domain.item.entity;
 
 import com.back.global.jpa.entity.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Item extends BaseEntity {
+    @Column(unique = true)
     private String itemName;
     private int price;
 
     public Item(String itemName, int price) {
+        this.itemName = itemName;
+        this.price = price;
+    }
+
+    public void modify(String itemName, int price) {
         this.itemName = itemName;
         this.price = price;
     }
