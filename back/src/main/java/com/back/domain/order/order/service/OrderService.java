@@ -50,7 +50,7 @@ public class OrderService {
                 .map(OrderItemResponse::from)
                 .toList();
 
-        return new OrderDetailResponse(order, items);
+        return OrderDetailResponse.from(order, items);
     }
 
     //Order Create /api/v1/orders 에서 사용
