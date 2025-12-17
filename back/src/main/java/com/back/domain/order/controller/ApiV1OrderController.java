@@ -1,16 +1,16 @@
 package com.back.domain.order.controller;
 
+import com.back.domain.order.dto.OrderCreateRequest;
+import com.back.domain.order.dto.OrderCreateResponse;
 import com.back.domain.order.dto.OrderDetailResponse;
-import com.back.domain.order.dto.OrderItemResponseDto;
+import com.back.domain.order.dto.OrderResponse;
+import com.back.domain.order.entity.Order;
 import com.back.domain.order.service.OrderService;
 import com.back.global.rsData.RsData;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -21,6 +21,22 @@ public class ApiV1OrderController {
     private final OrderService orderService;
 
     //주문생성 POST /api/orders
+    @PostMapping
+    @Transactional
+    public RsData<OrderCreateResponse> createOrder(@Valid @RequestBody OrderCreateRequest reqBody) {
+        Order order = orderService.createOrder(
+                reqBody.getEmail()
+        );
+
+        return new RsData<>(
+                "201-1",
+                "주문이 생성되었습니다.",
+                new OrderCreateRequest(
+                        orderService.count(),
+                        new OrderDto(order)
+                )
+        );
+    }
 
     //주문 내역 조회 (비회원 – 이메일 기준) GET /api/orders?email=test@example.com
 
