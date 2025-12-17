@@ -1,13 +1,9 @@
 package com.back.domain.item.controller;
 
-import com.back.domain.item.dto.ItemDto;
-import com.back.domain.item.entity.Item;
+import com.back.domain.item.dto.ItemResponse;
 import com.back.domain.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,5 +13,14 @@ import java.util.List;
 public class ApiV1ItemController {
     private ItemService itemService;
 
+    @GetMapping
+    public List<ItemResponse> getItems() {
+        return itemService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ItemResponse getItem(@PathVariable int id) {
+        return itemService.findById(id);
+    }
 
 }
