@@ -24,7 +24,7 @@ public class Order extends BaseEntity {
     private String address;
     private String postcode;
 
-    //@OneToMany(mappedBy = "order", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    //@Builder.Default
-    //private List<OrderItem> orderItems = new ArrayList();
+    @OneToMany(mappedBy = "order", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<OrderItem> orderItems = new ArrayList();
 }

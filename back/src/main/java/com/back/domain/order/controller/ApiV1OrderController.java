@@ -30,13 +30,19 @@ public class ApiV1OrderController {
 
     //주문 내역 조회 (비회원 – 이메일 기준) GET /api/orders?email=test@example.com
     @GetMapping
-    public List<OrderResponse> getOrders(@RequestParam(name = "email") String email) {
+    public RsData<List<OrderResponse>> getOrders(@RequestParam(name = "email") String email) {
         List<Order> orders = orderService.getOrdersByEmail(email);
-
-        return orders.stream()
+        List<OrderResponse> responseList = orders.stream()
                 .map(OrderResponse::new)
                 .toList();
+
+        return new RsData<>(
+                "200-1",
+                "이메일로 주문 목록 조회 성공",
+                responseList
+        );
     }
+
 
     //주문 상세 조회 GET /api/orders/{orderId}
     @GetMapping("/{orderId}")
@@ -47,5 +53,13 @@ public class ApiV1OrderController {
     //주문 수정 PUT /api/orders/{orderId}
 
     //주문 삭제(전체 삭제)DELETE /api/orders/{orderId}
-
+    @DeleteMapping("/{orderId}")
+    public RsData<Void> orderDelete(@PathVariable("orderId") int orderId){
+        orderService.orderDelete(orderId);
+        return new RsData<>(
+                "200-1",
+                "%d번 주문 삭제 성공".formatted(orderId),
+                null
+        );
+    }
 }
