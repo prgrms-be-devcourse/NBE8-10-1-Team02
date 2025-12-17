@@ -1,9 +1,11 @@
 package com.back.domain.order.dto;
 
 import com.back.domain.order.entity.Order;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class OrderResponse {
     int id;
     LocalDateTime createDate;
