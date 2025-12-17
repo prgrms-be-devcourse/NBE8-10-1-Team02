@@ -44,4 +44,12 @@ public class OrderService {
 
         return new OrderDetailResponse(order, items);
     }
+
+    //Orders id count
+    public Object count() {
+        return orderRepository.count();
+    }
+
+
+
 }
