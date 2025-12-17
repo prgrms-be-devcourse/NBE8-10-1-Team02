@@ -4,11 +4,13 @@ import com.back.domain.item.entity.Item;
 import com.back.domain.item.repository.ItemRepository;
 import com.back.domain.order.order.dto.request.OrderCreateRequest;
 import com.back.domain.order.order.dto.reponse.OrderDetailResponse;
+import com.back.domain.order.order.dto.request.OrderUpdateRequest;
 import com.back.domain.order.orderItem.dto.OrderItemResponse;
 import com.back.domain.order.order.entity.Order;
 import com.back.domain.order.orderItem.entity.OrderItem;
 import com.back.domain.order.orderItem.repository.OrderItemRepository;
 import com.back.domain.order.order.repository.OrderRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +82,28 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
+    @Transactional
+    public void updateOrder(int orderId, @Valid OrderUpdateRequest reqBody) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NoSuchElementException("해당 주문이 존재하지 않습니다."));
 
+        order.setEmail(reqBody.email());
+        order.setAddress(reqBody.address());
+        order.setPostcode(reqBody.postcode());
 
+        // 기존 주문 상품 삭제
+        List<OrderItem> existingOrderItems = orderItemRepository.findAllByOrderId(orderId);
+        orderItemRepository.deleteAll(existingOrderItems);
+
+        // 새로운 주문 상품 추가
+        List<OrderItem> newOrderItems = reqBody.orderItems().stream()
+                .map(oiReq -> {
+                    Item item = itemRepository.findById(oiReq.itemId())
+                            .orElseThrow(() -> new IllegalArgumentException("상품이 없습니다."));
+                    return new OrderItem(order, item, oiReq.quantity());
+                })
+                .toList();
+
+        orderItemRepository.saveAll(newOrderItems);
+    }
 }
