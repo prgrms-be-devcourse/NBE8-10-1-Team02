@@ -18,7 +18,7 @@ import java.util.List;
 public class ApiV1AdminOrderController {
     private final OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/orders")
     @Transactional(readOnly = true)
     public List<OrderResponse> getOrders() {
         List<Order> orders = orderService.findAll();
