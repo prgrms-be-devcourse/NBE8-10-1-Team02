@@ -22,4 +22,8 @@ public class OrderService {
     public Optional<Order> getOrderById(Integer id) {
         return orderRepository.findById(id);
     }
+
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
 }

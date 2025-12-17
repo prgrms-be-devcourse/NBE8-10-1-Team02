@@ -20,10 +20,10 @@ public class ApiV1AdminOrderController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public List<OrderResponse> getItems() {
-        List<Order> items = orderService.findAll();
+    public List<OrderResponse> getOrders() {
+        List<Order> orders = orderService.findAll();
 
-        return items
+        return orders
                 .stream()
                 .map(OrderResponse::new) // OrderResponse로 변환
                 .toList();

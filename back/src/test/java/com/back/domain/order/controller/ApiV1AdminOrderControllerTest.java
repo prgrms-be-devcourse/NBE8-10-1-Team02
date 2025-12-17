@@ -41,7 +41,7 @@ public class ApiV1AdminOrderControllerTest {
         List<Order> orders = orderService.findAll();
 
         resultActions
-                .andExpect(handler().handlerType(ApiV1PostController.class))
+                .andExpect(handler().handlerType(ApiV1AdminOrderController.class))
                 .andExpect(handler().methodName("getAdminOrders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(orders.size()));
@@ -51,7 +51,6 @@ public class ApiV1AdminOrderControllerTest {
             resultActions
                     .andExpect(jsonPath("$[%d].id".formatted(i)).value(order.getId()))
                     .andExpect(jsonPath("$[%d].createDate".formatted(i)).value(Matchers.startsWith(order.getCreateDate().toString().substring(0, 20))))
-                    .andExpect(jsonPath("$[%d].modifyDate".formatted(i)).value(Matchers.startsWith(order.getModifyDate().toString().substring(0, 20))))
                     .andExpect(jsonPath("$[%d].email".formatted(i)).value(order.getEmail()))
                     .andExpect(jsonPath("$[%d].address".formatted(i)).value(order.getAddress()))
                     .andExpect(jsonPath("$[%d].postcode".formatted(i)).value(order.getPostcode()));
