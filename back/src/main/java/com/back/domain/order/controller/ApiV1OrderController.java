@@ -1,16 +1,15 @@
 package com.back.domain.order.controller;
 
 import com.back.domain.order.dto.OrderDetailResponse;
-import com.back.domain.order.dto.OrderItemResponseDto;
+import com.back.domain.order.dto.OrderResponse;
+import com.back.domain.order.entity.Order;
 import com.back.domain.order.service.OrderService;
 import com.back.global.rsData.RsData;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -23,6 +22,14 @@ public class ApiV1OrderController {
     //주문생성 POST /api/orders
 
     //주문 내역 조회 (비회원 – 이메일 기준) GET /api/orders?email=test@example.com
+    @GetMapping
+    public List<OrderResponse> getOrders(@RequestParam(name = "email") String email) {
+        List<Order> orders = orderService.getOrdersByEmail(email);
+
+        return orders.stream()
+                .map(OrderResponse::new)
+                .toList();
+    }
 
     //주문 상세 조회 GET /api/orders/{orderId}
     @GetMapping("/{orderId}")
