@@ -20,7 +20,7 @@ public class ApiV1AdminOrderController {
 
     @GetMapping("/orders")
     @Transactional(readOnly = true)
-    public List<OrderResponse> getOrders() {
+    public List<OrderResponse> getAdminOrders() {
         List<Order> orders = orderService.findAll();
 
         return orders
