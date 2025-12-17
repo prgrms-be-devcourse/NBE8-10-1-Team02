@@ -6,6 +6,7 @@ public record OrderItemResponseDto(
     int id,
     int itemId,
     String itemName,
+    int price,
     int quantity
 ) {
     public static OrderItemResponseDto from(OrderItem orderItem) {
@@ -13,6 +14,7 @@ public record OrderItemResponseDto(
             orderItem.getId(),
             orderItem.getItem().getId(),
             orderItem.getItem().getItemName(),
+            orderItem.getItem().getPrice(),
             orderItem.getQuantity()
         );
     }
