@@ -4,14 +4,14 @@ import com.back.domain.item.entity.Item;
 
 import java.time.LocalDateTime;
 
-public record ItemDto(
+public record ItemResponse(
         int id,
         LocalDateTime createDate,
         LocalDateTime modifyDate,
         String itemName,
         int price
 ) {
-    public ItemDto(Item item) {
+    public ItemResponse(Item item) {
         this(
                 item.getId(),
                 item.getCreateDate(),
