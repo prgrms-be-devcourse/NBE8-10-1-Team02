@@ -1,6 +1,8 @@
 package com.back.domain.order.entity;
 
+import com.back.domain.item.entity.Item;
 import com.back.global.jpa.entity.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,13 +17,19 @@ import static jakarta.persistence.FetchType.LAZY;
 public class OrderItem extends BaseEntity {
 
     @ManyToOne(fetch = LAZY, optional = false)
+    @JoinColumn(name="order_id")
     private Order order;
-    private int productId;
+
+    @ManyToOne(fetch = LAZY, optional = false)
+    @JoinColumn(name="item_id")
+    private Item item;
+
+    @Column(nullable = false)
     private int quantity;
 
-    public OrderItem(Order order, int productId, int quantity) {
+    public OrderItem(Order order, Item item, int quantity) {
         this.order = order;
-        this.productId = productId;
+        this.item = item;
         this.quantity = quantity;
     }
 
