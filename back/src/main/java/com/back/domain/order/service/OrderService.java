@@ -28,6 +28,10 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+      
     //주문 상세 조회 api/v1/orders/{orderId}에서 사용
     public OrderDetailResponse getOrderDetail(int orderId) {
         Order order = orderRepository.findById(orderId)

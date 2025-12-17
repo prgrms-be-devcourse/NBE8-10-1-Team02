@@ -18,12 +18,12 @@ import java.util.List;
 public class ApiV1AdminOrderController {
     private final OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/orders")
     @Transactional(readOnly = true)
-    public List<OrderResponse> getItems() {
-        List<Order> items = orderService.findAll();
+    public List<OrderResponse> getAdminOrders() {
+        List<Order> orders = orderService.findAll();
 
-        return items
+        return orders
                 .stream()
                 .map(OrderResponse::new) // OrderResponse로 변환
                 .toList();
