@@ -19,7 +19,6 @@ public class ApiV1AdminOrderController {
     private final OrderService orderService;
 
     @GetMapping("/orders")
-    @Transactional(readOnly = true)
     public List<OrderResponse> getAdminOrders() {
         List<Order> orders = orderService.findAll();
 
