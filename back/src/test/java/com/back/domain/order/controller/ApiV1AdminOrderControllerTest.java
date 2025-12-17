@@ -1,7 +1,8 @@
 package com.back.domain.order.controller;
 
-import com.back.domain.order.entity.Order;
-import com.back.domain.order.service.OrderService;
+import com.back.domain.order.admin.controller.ApiV1AdminOrderController;
+import com.back.domain.order.order.entity.Order;
+import com.back.domain.order.order.service.OrderService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

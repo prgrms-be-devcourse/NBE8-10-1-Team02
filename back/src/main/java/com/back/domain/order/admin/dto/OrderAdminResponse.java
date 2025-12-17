@@ -1,6 +1,6 @@
-package com.back.domain.order.dto;
+package com.back.domain.order.admin.dto;
 
-import com.back.domain.order.entity.Order;
+import com.back.domain.order.order.entity.Order;
 
 import java.time.LocalDateTime;
 

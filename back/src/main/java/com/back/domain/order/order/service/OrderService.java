@@ -1,14 +1,14 @@
-package com.back.domain.order.service;
+package com.back.domain.order.order.service;
 
 import com.back.domain.item.entity.Item;
 import com.back.domain.item.repository.ItemRepository;
-import com.back.domain.order.dto.OrderCreateRequest;
-import com.back.domain.order.dto.OrderDetailResponse;
-import com.back.domain.order.dto.OrderItemResponseDto;
-import com.back.domain.order.entity.Order;
-import com.back.domain.order.entity.OrderItem;
-import com.back.domain.order.repository.OrderItemRepository;
-import com.back.domain.order.repository.OrderRepository;
+import com.back.domain.order.order.dto.request.OrderCreateRequest;
+import com.back.domain.order.order.dto.reponse.OrderDetailResponse;
+import com.back.domain.order.orderItem.dto.OrderItemResponse;
+import com.back.domain.order.order.entity.Order;
+import com.back.domain.order.orderItem.entity.OrderItem;
+import com.back.domain.order.orderItem.repository.OrderItemRepository;
+import com.back.domain.order.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +43,9 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("주문이 없습니다."));
 
-        List<OrderItemResponseDto> items = orderItemRepository.findAllByOrderId(orderId)
+        List<OrderItemResponse> items = orderItemRepository.findAllByOrderId(orderId)
                 .stream()
-                .map(OrderItemResponseDto::from)
+                .map(OrderItemResponse::from)
                 .toList();
 
         return new OrderDetailResponse(order, items);

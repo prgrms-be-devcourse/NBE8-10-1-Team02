@@ -1,8 +1,8 @@
-package com.back.domain.order.controller;
+package com.back.domain.order.admin.controller;
 
-import com.back.domain.order.dto.OrderAdminResponse;
-import com.back.domain.order.entity.Order;
-import com.back.domain.order.service.OrderService;
+import com.back.domain.order.admin.dto.OrderAdminResponse;
+import com.back.domain.order.order.entity.Order;
+import com.back.domain.order.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

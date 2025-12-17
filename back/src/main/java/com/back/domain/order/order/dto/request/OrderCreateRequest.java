@@ -1,7 +1,6 @@
-package com.back.domain.order.dto;
+package com.back.domain.order.order.dto.request;
 
-import com.back.domain.order.entity.Order;
-import com.back.domain.order.entity.OrderItem;
+import com.back.domain.order.orderItem.dto.OrderItemRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,12 +1,12 @@
-package com.back.domain.order.controller;
+package com.back.domain.order.order.controller;
 
 
-import com.back.domain.order.dto.OrderCreateRequest;
-import com.back.domain.order.dto.OrderCreateResponse;
-import com.back.domain.order.dto.OrderDetailResponse;
-import com.back.domain.order.dto.OrderResponse;
-import com.back.domain.order.entity.Order;
-import com.back.domain.order.service.OrderService;
+import com.back.domain.order.order.dto.request.OrderCreateRequest;
+import com.back.domain.order.order.dto.reponse.OrderCreateResponse;
+import com.back.domain.order.order.dto.reponse.OrderDetailResponse;
+import com.back.domain.order.order.dto.reponse.OrderResponse;
+import com.back.domain.order.order.entity.Order;
+import com.back.domain.order.order.service.OrderService;
 import com.back.global.rsData.RsData;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
