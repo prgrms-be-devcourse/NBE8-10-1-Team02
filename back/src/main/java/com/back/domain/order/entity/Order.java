@@ -26,5 +26,5 @@ public class Order extends BaseEntity {
 
     @OneToMany(mappedBy = "order", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @Builder.Default
-    private List<OrderItem> orderItems = new ArrayList();
+    private List<OrderItem> orderItems = new ArrayList<>();
 }
