@@ -52,13 +52,14 @@ public class ApiV1OrderController {
         return orderService.getOrderDetail(orderId);
     }
 
-    //주문 수정 PUT /api/orders/{orderId}
+    // 주문 수정 PUT /api/v1/orders/{orderId}
     @PutMapping("/{orderId}")
     public RsData<OrderUpdateResponse> updateOrder(
-            @PathVariable("orderId") int orderId,
-            @Valid @RequestBody OrderUpdateRequest reqBody) {
-        orderService.updateOrder(orderId, reqBody);
-        return new RsData<>("200-2", "%d번 주문 수정 성공".formatted(orderId), new OrderUpdateResponse(orderId));
+            @PathVariable int orderId,
+            @Valid @RequestBody OrderUpdateRequest reqBody
+    ) {
+        OrderUpdateResponse res = orderService.updateOrder(orderId, reqBody);
+        return new RsData<>("200-2", "%d번 주문 수정 성공".formatted(orderId), res);
     }
 
 
