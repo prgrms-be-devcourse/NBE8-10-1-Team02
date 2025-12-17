@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -71,6 +72,12 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
 
         return order.getId();
+    }
+    @Transactional
+    public void orderDelete(int orderId){
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NoSuchElementException("해당 주문이 존재하지 않습니다."));
+        orderRepository.delete(order);
     }
 
 
