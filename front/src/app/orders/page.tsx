@@ -1,31 +1,49 @@
-"use client";
+"use client"
 
 import { useState } from "react";
+import { apiFetch } from "@/lib/api/client";
 
-//주문내역 조회(이메일) 화면
 export default function Page() {
+
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loadingList, setLoadingList] = useState(false);
+  
+
+  const handleSearch = async () => {
+    if (!email.trim()) return;
+
+    setLoadingList(true);
+    setErrorMsg("")
+  }
 
   return (
-    <>
-      <div className="flex h-[calc(100vh-3.5rem)] p-6 gap-4 overflow-hidden">
-        {/*왼쪽 영역: 이메일 입력 + 주문내역(노랑)*/}
-        <div className="flex flex-col flex-1 gap-4 min-h-0">
-          {/*이메일 검색 입력*/}
-          <div className="flex gap-2">
-            <input className="flex border border-gray-300 bg-white text-gray-600" type="email" value={email} placeholder="이메일을 입력하세요"/>
-            <button className="flex border border-gray-300">검색</button>
-          </div>
-          {/*서브 컨텐츠 : 왼쪽 주문내역(노랑)*/}
-          <div className="flex-1 bg-yellow-400 rounded-lg overflow-auto">
-          </div>
+    <div className="flex h-[calc(100vh-3.5rem)] p-6 gap-4 overflow-hidden">
+      {/* 좌측 */}
+      <div className="flex flex-col flex-1 gap-4 min-h-0">
+        <div className="flex gap-2">
+          <input
+            className="flex-1 border border-gray-300 bg-white text-gray-700 rounded px-3 py-2"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="이메일을 입력하세요"
+          />
+          <button
+            type="button"
+            onClick={handleSearch}
+            className="border border-gray-300 rounded px-4 py-2 bg-white hover:bg-gray-50"
+          >
+            검색
+          </button>
         </div>
-
-        {/*오른쪽 영역: 주문 상세(흰색) - 이메일 입력 높이부터 시작*/}
-        <div className="flex-1 bg-white rounded-lg overflow-auto"></div>
       </div>
-    </>
+
+      {/* 우측 */}
+      <div className="flex-1 bg-white rounded-lg overflow-auto p-6">
+        ...
+      </div>
+    </div>
   );
-  
 }
