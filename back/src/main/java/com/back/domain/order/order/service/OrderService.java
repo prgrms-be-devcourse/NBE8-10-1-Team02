@@ -29,9 +29,12 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final ItemRepository itemRepository;
 
-
     public List<Order> getOrdersByEmail(String email) {
-        return orderRepository.findAllByEmail(email);
+        List<Order> orders = orderRepository.findAllByEmail(email);
+        if (orders.isEmpty()) {
+            throw new NoSuchElementException("해당 이메일로 등록된 주문 내역이 없습니다: " + email);
+        }
+        return orders;
     }
 
     public Optional<Order> getOrderById(Integer id) {
