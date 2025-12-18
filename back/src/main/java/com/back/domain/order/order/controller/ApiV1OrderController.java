@@ -1,10 +1,12 @@
 package com.back.domain.order.order.controller;
 
 
+import com.back.domain.order.order.dto.reponse.OrderUpdateResponse;
 import com.back.domain.order.order.dto.request.OrderCreateRequest;
 import com.back.domain.order.order.dto.reponse.OrderCreateResponse;
 import com.back.domain.order.order.dto.reponse.OrderDetailResponse;
 import com.back.domain.order.order.dto.reponse.OrderResponse;
+import com.back.domain.order.order.dto.request.OrderUpdateRequest;
 import com.back.domain.order.order.entity.Order;
 import com.back.domain.order.order.service.OrderService;
 import com.back.global.rsData.RsData;
@@ -50,11 +52,20 @@ public class ApiV1OrderController {
         return orderService.getOrderDetail(orderId);
     }
 
-    //주문 수정 PUT /api/orders/{orderId}
+    // 주문 수정 PUT /api/v1/orders/{orderId}
+    @PutMapping("/{orderId}")
+    public RsData<OrderUpdateResponse> updateOrder(
+            @PathVariable int orderId,
+            @Valid @RequestBody OrderUpdateRequest reqBody
+    ) {
+        OrderUpdateResponse res = orderService.updateOrder(orderId, reqBody);
+        return new RsData<>("200-2", "%d번 주문 수정 성공".formatted(orderId), res);
+    }
+
 
     //주문 삭제(전체 삭제)DELETE /api/orders/{orderId}
     @DeleteMapping("/{orderId}")
-    public RsData<Void> orderDelete(@PathVariable("orderId") int orderId){
+    public RsData<Void> orderDelete(@PathVariable("orderId") int orderId) {
         orderService.orderDelete(orderId);
         return new RsData<>(
                 "200-1",
