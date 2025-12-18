@@ -19,12 +19,14 @@ export type OrderItems = {
   quantity: number;
 }
 
-export type OrderDetailDto = OrderDto & {
+export type OrderDetailResDto = {
+  id: number;
+  createDate: string;
   email: string;
   address: string;
   postcode: string;
+  orderItems: OrderItems[]; 
 };
-
 export type OrderUpdateReqDto = {
   email: string;
   address: string;
