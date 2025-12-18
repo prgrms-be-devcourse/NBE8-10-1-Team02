@@ -25,3 +25,7 @@ body {
   color: var(--foreground);
   font-family: "Holtwood One SC", serif;
 }
+
+@utility font-holtwood {
+  font-family: "Holtwood One SC", serif;
+}

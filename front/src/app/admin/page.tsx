@@ -1,21 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import {Order} from "@/lib/types/order";
 
-type OrderItem = {
-    id: number;
-    itemId: number;
-    itemName: string;
-    price: number;
-    quantity: number;
-};
-
-type Order = {
-    id: number;
-    createDate: string;
-    email: string;
-    items: OrderItem[];
-};
 
 export default function Page() {
     const [scale, setScale] = useState(1);
@@ -53,15 +40,6 @@ export default function Page() {
                 }}
             >
                 <div className="flex flex-col items-start bg-[#1A1A1A] w-[1920px]">
-
-                    <div className="flex items-start mb-0.5 ml-[325px] gap-3.5">
-            <span className="font-holtwood text-[#FFB922] text-[90px]">
-              Super Coffee Mario
-            </span>
-                        <span className="text-[#A0A0A0] text-[50px] font-bold mt-[72px]">
-              manager
-            </span>
-                    </div>
 
 
                     <div className="self-stretch bg-[#FFE89A] px-[72px] mb-12 mx-[71px] rounded-[50px]">
