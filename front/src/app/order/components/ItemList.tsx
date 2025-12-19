@@ -61,7 +61,7 @@ export default function ItemList({addToCart}: {addToCart: (Item: ItemDto) => voi
                       className="h-full w-full object-cover"
                       loading="lazy"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = "/placeholder.png";
+                        (e.currentTarget as HTMLImageElement).src = "/placeholder.gif";
                       }}
                     />
                   </div>
