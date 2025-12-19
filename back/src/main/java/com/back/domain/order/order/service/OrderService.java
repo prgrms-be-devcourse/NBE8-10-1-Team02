@@ -132,4 +132,8 @@ public class OrderService {
 
         return new OrderUpdateResponse(orderId);
     }
+
+    public long count() {
+        return orderRepository.count();
+    }
 }

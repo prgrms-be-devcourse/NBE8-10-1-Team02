@@ -73,4 +73,8 @@ public class ItemService {
 
         return new ItemResponse(item);
     }
+
+    public long count() {
+        return itemRepository.count();
+    }
 }
