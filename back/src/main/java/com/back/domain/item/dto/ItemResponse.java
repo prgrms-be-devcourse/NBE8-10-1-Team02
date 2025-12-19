@@ -9,7 +9,8 @@ public record ItemResponse(
         LocalDateTime createDate,
         LocalDateTime modifyDate,
         String itemName,
-        int price
+        int price,
+        String imageUrl
 ) {
     public ItemResponse(Item item) {
         this(
@@ -17,7 +18,8 @@ public record ItemResponse(
                 item.getCreateDate(),
                 item.getModifyDate(),
                 item.getItemName(),
-                item.getPrice()
+                item.getPrice(),
+                item.getImageUrl()
         );
     }
 }

@@ -13,14 +13,17 @@ public class Item extends BaseEntity {
     @Column(unique = true)
     private String itemName;
     private int price;
+    private String imageUrl;
 
-    public Item(String itemName, int price) {
+    public Item(String itemName, int price, String imageUrl) {
         this.itemName = itemName;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
-    public void modify(String itemName, int price) {
+    public void modify(String itemName, int price, String imageUrl) {
         this.itemName = itemName;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 }

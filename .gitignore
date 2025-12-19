@@ -85,3 +85,7 @@ yarn-error.log*
 ### Custom (H2 Database Files) ###
 /back/db_dev.mv.db
 /back/db_dev.trace.db
+/back/back/db_dev.mv.db
+
+### Custom (Image files) ###
+uploads-dev
