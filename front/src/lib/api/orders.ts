@@ -17,6 +17,7 @@ import type {
   OrderDetailResDto,
   OrderUpdateReqDto,
   OrderUpdateRes,
+  RsDataDto,
 } from "@/lib/types/order";
 
 export async function fetchOrdersByEmail(email: string) {
@@ -34,4 +35,10 @@ export async function updateOrder(orderId: number, body: OrderUpdateReqDto) {
     method: "PUT",
     body: JSON.stringify(body),
   })) as OrderUpdateRes;
+}
+
+export async function deleteOrder(orderId: number) {
+  return (await apiFetch(`/api/v1/orders/${orderId}`, {
+    method: "DELETE",
+  })) as RsDataDto<null>;
 }

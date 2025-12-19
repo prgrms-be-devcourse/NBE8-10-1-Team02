@@ -12,6 +12,7 @@ type Props = {
   errorMsg: string;
   onRollback: () => void;
   onSave: () => void;
+  onDeleteAll: () => void;
 };
 
 export default function OrderDetailForm({
@@ -24,6 +25,7 @@ export default function OrderDetailForm({
   errorMsg,
   onRollback,
   onSave,
+  onDeleteAll,
 }: Props) {
   const getQty = (itemId: number, fallback: number) => {
     if (!form) return fallback;
@@ -54,10 +56,6 @@ export default function OrderDetailForm({
       orderItems: form.orderItems.filter((x) => x.itemId !== itemId),
     });
   };
-
-  const miniBtn =
-    "h-8 w-8 rounded-full bg-neutral-200 text-neutral-800 font-bold " +
-    "hover:bg-neutral-300 active:scale-[0.98] disabled:opacity-50";
 
   if (!selectedOrderId) {
     return (
@@ -182,41 +180,49 @@ export default function OrderDetailForm({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  {/* 오른쪽: 수량 컨트롤 + 삭제 */}
+                  <div className="flex shrink-0 items-center gap-2">
+                    <div className="flex items-center rounded-lg border border-black/20 bg-white">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (qty === 1) {
+                            handleDeleteItem(it.itemId);
+                          } else {
+                            setQty(it.itemId, qty - 1);
+                          }
+                        }}
+                        disabled={saving}
+                        className="px-2 py-1 text-sm text-black hover:bg-black/5 disabled:opacity-50"
+                        aria-label="수량 감소"
+                      >
+                        -
+                      </button>
+
+                      <span className="w-8 text-center text-sm font-semibold text-black">
+                        {qty}
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() => setQty(it.itemId, qty + 1)}
+                        disabled={saving}
+                        className="px-2 py-1 text-sm text-black hover:bg-black/5 disabled:opacity-50"
+                        aria-label="수량 증가"
+                      >
+                        +
+                      </button>
+                    </div>
+
                     <button
                       type="button"
-                      className={miniBtn}
-                      disabled={saving}
-                      onClick={() => setQty(it.itemId, qty - 1)}
-                    >
-                      -
-                    </button>
-
-                    <input
-                      className="no-spinner w-20 rounded-xl border border-gray-300 bg-white px-3 py-2 text-right text-gray-900 outline-none focus:ring-2 focus:ring-amber-300"
-                      type="number"
-                      min={1}
-                      value={qty}
-                      onChange={(e) => setQty(it.itemId, Number(e.target.value))}
-                    />
-
-                    <button
-                      type="button"
-                      className={miniBtn}
-                      disabled={saving}
-                      onClick={() => setQty(it.itemId, qty + 1)}
-                    >
-                      +
-                    </button>
-
-                    <button
-                      type="button"
-                      className={miniBtn}
-                      disabled={saving}
                       onClick={() => handleDeleteItem(it.itemId)}
+                      disabled={saving}
+                      className="rounded-lg border border-black/20 bg-white px-2 py-1 text-sm text-black hover:bg-black/5 disabled:opacity-50"
+                      aria-label="항목 삭제"
                       title="삭제"
                     >
-                      x
+                      ✕
                     </button>
                   </div>
                 </div>
@@ -233,6 +239,14 @@ export default function OrderDetailForm({
         </div>
 
         <div className="flex justify-end gap-3 pt-2">
+          <button
+            type="button"
+            className="rounded-full bg-red-500 px-6 py-2 font-bold text-white hover:bg-red-600 disabled:opacity-50"
+            disabled={saving}
+            onClick={onDeleteAll}
+          >
+            delete
+          </button>
           <button
             type="button"
             className="rounded-full bg-neutral-200 px-6 py-2 font-bold text-neutral-900 hover:bg-neutral-300 disabled:opacity-50"
