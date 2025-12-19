@@ -8,8 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,18 +32,13 @@ public class ApiV1ItemController {
         return itemService.findById(id);
     }
 
-    record ItemCreateReqBody(
-            @NotBlank
-            @Size(min = 2, max = 100)
-            String itemName,
-            @Positive
-            int price
-    ) {}
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public RsData<ItemResponse> create(
-            @Valid @RequestBody ItemCreateReqBody reqBody
+            @RequestParam("itemName") @NotBlank @Size(min = 2, max = 100) String itemName,
+            @RequestParam("price") @Positive int price,
+            @RequestPart(value = "image", required = false)MultipartFile image
     ) {
-        ItemResponse itemResponse = itemService.create(reqBody.itemName(), reqBody.price());
+        ItemResponse itemResponse = itemService.create(itemName, price, image);
 
         return new RsData<>(
                 "201-1",
@@ -50,19 +47,14 @@ public class ApiV1ItemController {
         );
     }
 
-    record ItemModifyReqBody(
-            @NotBlank
-            @Size(min = 2, max = 100)
-            String itemName,
-            @Positive
-            int price
-    ) {}
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public RsData<ItemResponse> modify(
             @PathVariable @Positive int id,
-            @Valid @RequestBody ItemModifyReqBody reqBody
+            @RequestParam("itemName") @NotBlank @Size(min = 2, max = 100) String itemName,
+            @RequestParam("price") @Positive int price,
+            @RequestPart(value = "image", required = false) MultipartFile image
     ) {
-        ItemResponse modified = itemService.modify(id, reqBody.itemName(), reqBody.price());
+        ItemResponse modified = itemService.modify(id, itemName, price, image);
 
         return new RsData<>(
                 "200-1",
