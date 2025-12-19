@@ -2,6 +2,7 @@
 
 import { getItems } from "@/lib/api/item";
 import { ItemDto } from "@/lib/types/item";
+import toImageSrc from "@/lib/utils/toImageSrc";
 import { useEffect, useState } from "react";
 
 export default function ItemList({addToCart}: {addToCart: (Item: ItemDto) => void}) {
@@ -50,18 +51,36 @@ export default function ItemList({addToCart}: {addToCart: (Item: ItemDto) => voi
             <ul className="space-y-3">
               {items.map((item) => (
                 <li key={item.id} className="rounded-xl border p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-medium">{item.itemName}</div>
-                      <div className="text-sm text-white">{item.price.toLocaleString()} won</div>
-                    </div>
-                    <button
-                      onClick={()=> addToCart(item)}
-                      className="rounded-lg border px-3 py-1 text-sm hover:bg-white hover:text-black">
-                      담기
-                    </button>
+                <div className="flex items-center gap-3">
+                  {/* 썸네일 */}
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border bg-white/10">
+                    {/* Next/Image 써도 되고, 일단 img로 빠르게 */}
+                    <img
+                      src={toImageSrc(item.imageUrl)}
+                      alt={item.itemName}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = "/placeholder.png";
+                      }}
+                    />
                   </div>
-                </li>
+              
+                  {/* 텍스트 */}
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate font-medium">{item.itemName}</div>
+                    <div className="text-sm text-white">{item.price.toLocaleString()} won</div>
+                  </div>
+              
+                  {/* 버튼 */}
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="shrink-0 rounded-lg border px-3 py-1 text-sm hover:bg-white hover:text-black"
+                  >
+                    담기
+                  </button>
+                </div>
+              </li>
               ))}
             </ul>
           )}

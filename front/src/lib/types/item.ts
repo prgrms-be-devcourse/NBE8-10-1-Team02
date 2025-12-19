@@ -5,6 +5,7 @@ export type ItemDto = {
   modifyDate: string;
   itemName: string;
   price: number;
+  imageUrl?: string | null;
 };
 
 export type CartItem = ItemDto & { quantity: number };
