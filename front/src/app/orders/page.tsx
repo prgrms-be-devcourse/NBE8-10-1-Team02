@@ -1,9 +1,10 @@
 // src/app/orders/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import type { OrderDto, OrderDetailResDto, OrderUpdateReqDto } from "@/lib/types/order";
-import { fetchOrdersByEmail, fetchOrderDetail, updateOrder } from "@/lib/api/orders";
+import { fetchOrdersByEmail, fetchOrderDetail, updateOrder, deleteOrder } from "@/lib/api/orders";
+import { parseErrorMessages } from "./utils/errorUtils";
 
 import OrdersSearchBar from "./components/OrderSearchBar"
 import OrdersListPanel from "./components/OrdersListPanel"
@@ -13,6 +14,7 @@ export default function Page() {
   // 검색
   const [email, setEmail] = useState("");
   const [loadingList, setLoadingList] = useState(false);
+  const [searchErrorMsg, setSearchErrorMsg] = useState("");
 
   // 목록
   const [orders, setOrders] = useState<OrderDto[]>([]);
@@ -27,11 +29,17 @@ export default function Page() {
   const [saving, setSaving] = useState(false);
 
   // 에러
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string[]>([]);
 
-  const loadDetail = async (orderId: number) => {
+  // 이메일 형식 검증 (메모이제이션)
+  const isValidEmail = useCallback((email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }, []);
+
+  const loadDetail = useCallback(async (orderId: number) => {
     setLoadingDetail(true);
-    setErrorMsg("");
+    setErrorMsg([]);
 
     try {
       const d = await fetchOrderDetail(orderId);
@@ -49,20 +57,31 @@ export default function Page() {
     } catch (e: any) {
       setDetail(null);
       setForm(null);
-      setErrorMsg(e?.msg || e?.message || "주문 상세 조회 실패");
+      setErrorMsg(parseErrorMessages(e || { msg: "주문 상세 조회 실패" }));
     } finally {
       setLoadingDetail(false);
     }
-  };
+  }, []);
 
-  const handleSearch = async () => {
-    if (!email.trim()) return;
+  const handleSearch = useCallback(async () => {
+    const trimmedEmail = email.trim();
+    
+    if (!trimmedEmail) {
+      setSearchErrorMsg("이메일을 입력해주세요");
+      return;
+    }
+
+    if (!isValidEmail(trimmedEmail)) {
+      setSearchErrorMsg("올바른 이메일 형식을 입력해주세요");
+      return;
+    }
 
     setLoadingList(true);
-    setErrorMsg("");
+    setErrorMsg([]);
+    setSearchErrorMsg("");
 
     try {
-      const res = await fetchOrdersByEmail(email);
+      const res = await fetchOrdersByEmail(trimmedEmail);
       const list = res.data ?? [];
 
       setOrders(list);
@@ -81,34 +100,43 @@ export default function Page() {
       setSelectedOrderId(null);
       setDetail(null);
       setForm(null);
-      setErrorMsg(e?.msg || e?.message || "주문 목록 조회 실패");
+      const errors = parseErrorMessages(e || { msg: "주문 목록 조회 실패" });
+      setSearchErrorMsg(errors.length > 0 ? errors[0] : "주문 목록을 불러오는데 실패했습니다");
     } finally {
       setLoadingList(false);
     }
-  };
+  }, [email, isValidEmail, loadDetail]);
 
-  const handleSelect = async (orderId: number) => {
+  const handleSelect = useCallback(async (orderId: number) => {
+    if (selectedOrderId === orderId) return; // 이미 선택된 경우 중복 호출 방지
     setSelectedOrderId(orderId);
     await loadDetail(orderId);
-  };
+  }, [selectedOrderId, loadDetail]);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (!selectedOrderId || !form) return;
 
     setSaving(true);
-    setErrorMsg("");
+    setErrorMsg([]);
 
     try {
-      const res = await updateOrder(selectedOrderId, form);
-      await loadDetail(res.data.orderId);
+      const updateRes = await updateOrder(selectedOrderId, form);
+      await loadDetail(updateRes.data.orderId);
+      // 업데이트 후 왼쪽 목록도 갱신
+      const trimmedEmail = email.trim();
+      if (trimmedEmail) {
+        const listRes = await fetchOrdersByEmail(trimmedEmail);
+        const list = listRes.data ?? [];
+        setOrders(list);
+      }
     } catch (e: any) {
-      setErrorMsg(e?.msg || e?.message || "주문 수정 실패");
+      setErrorMsg(parseErrorMessages(e || { msg: "주문 수정 실패" }));
     } finally {
       setSaving(false);
     }
-  };
+  }, [selectedOrderId, form, email, loadDetail]);
 
-  const handleRollback = () => {
+  const handleRollback = useCallback(() => {
     if (!detail) return;
 
     setForm({
@@ -120,19 +148,53 @@ export default function Page() {
         quantity: it.quantity,
       })),
     });
-  };
+    setErrorMsg([]);
+  }, [detail]);
+
+  const handleDeleteAll = useCallback(async () => {
+    if (!selectedOrderId || !form || !detail || !email.trim()) return;
+
+    // 확인 알림
+    const confirmed = window.confirm(
+      `주문번호 ${selectedOrderId}번을 정말로 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`
+    );
+    if (!confirmed) return;
+
+    setSaving(true);
+    setErrorMsg([]);
+
+    try {
+      await deleteOrder(selectedOrderId);
+      await handleSearch();
+    } catch (e: any) {
+      setErrorMsg(parseErrorMessages(e || { msg: "주문 삭제 실패" }));
+    } finally {
+      setSaving(false);
+    }
+  }, [selectedOrderId, form, detail, email, handleSearch]);
+
+  const handleEmailChange = useCallback((v: string) => {
+    setEmail(v);
+    if (searchErrorMsg) setSearchErrorMsg("");
+  }, [searchErrorMsg]);
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] p-6 gap-4 overflow-hidden">
+    <div className="flex h-[calc(100vh-3.5rem)] p-4 md:p-6 gap-4 overflow-hidden bg-[#1a1a1a]">
       {/* 좌측 */}
-      <div className="flex flex-col flex-1 gap-4 min-h-0">
+      <div className="flex flex-col flex-1 gap-4 min-h-0 min-w-0">
         <OrdersSearchBar
           email={email}
-          setEmail={setEmail}
+          setEmail={handleEmailChange}
           onSearch={handleSearch}
-          disabled={loadingList}
+          disabled={loadingList || loadingDetail}
+          errorMsg={searchErrorMsg}
         />
-        <OrdersListPanel orders={orders} loading={loadingList} onSelect={handleSelect} />
+        <OrdersListPanel 
+          orders={orders} 
+          loading={loadingList} 
+          selectedOrderId={selectedOrderId}
+          onSelect={handleSelect} 
+        />
       </div>
 
       {/* 우측 */}
@@ -146,6 +208,7 @@ export default function Page() {
         errorMsg={errorMsg}
         onRollback={handleRollback}
         onSave={handleSave}
+        onDeleteAll={handleDeleteAll}
       />
     </div>
   );
