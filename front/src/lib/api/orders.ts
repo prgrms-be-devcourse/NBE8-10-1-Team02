@@ -12,7 +12,6 @@ export const createOrder = (
   });
 };
 // src/lib/api/orders.ts
-import { apiFetch } from "@/lib/api/client";
 import type {
   OrderListRes,
   OrderDetailResDto,
@@ -22,16 +21,16 @@ import type {
 
 export async function fetchOrdersByEmail(email: string) {
   return (await apiFetch(
-    `/orders?email=${encodeURIComponent(email)}`
+    `/api/v1/orders?email=${encodeURIComponent(email)}`
   )) as OrderListRes;
 }
 
 export async function fetchOrderDetail(orderId: number) {
-  return (await apiFetch(`/orders/${orderId}`)) as OrderDetailResDto;
+  return (await apiFetch(`/api/v1/orders/${orderId}`)) as OrderDetailResDto;
 }
 
 export async function updateOrder(orderId: number, body: OrderUpdateReqDto) {
-  return (await apiFetch(`/orders/${orderId}`, {
+  return (await apiFetch(`/api/v1/orders/${orderId}`, {
     method: "PUT",
     body: JSON.stringify(body),
   })) as OrderUpdateRes;
