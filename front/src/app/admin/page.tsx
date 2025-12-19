@@ -7,7 +7,6 @@ import {Order} from "@/lib/types/order";
 export default function Page() {
     const [scale, setScale] = useState(1);
     const [orders, setOrders] = useState<Order[]>([]);
-    const [allOrders, setAllOrders] = useState<Order[]>([]);
     const [visibleCount, setVisibleCount] = useState(10);
 
     useEffect(() => {
@@ -64,14 +63,11 @@ export default function Page() {
                     transform: `scale(${scale})`,
                 }}
             >
-                <div className="flex flex-col items-start bg-[#1A1A1A] w-[1920px]">
-
-
-                    <div className="self-stretch bg-[#FFE89A] px-[72px] mb-12 mx-[71px] rounded-[50px] mt-8">
+                    <div className="self-stretch bg-[#FFE89A] px-[72px] mb-12 mx-[71px] rounded-[50px] mt-8 pt-[59px]">
                         {orders.slice(0, visibleCount).map((order) => (
                             <div
                                 key={order.id}
-                                className="flex flex-col items-start self-stretch bg-white mt-[59px] mb-9"
+                                className="flex flex-col items-start self-stretch bg-white mb-9"
                             >
 
                                 <div className="flex items-start mt-1.5 mb-[13px] ml-[23px]">
@@ -98,6 +94,6 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-        </div>
+
     );
 }
