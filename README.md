@@ -64,7 +64,7 @@
 
 ---
 
-## 6. 개발 환경 (Development Environment)
+## 6. 개발 환경
 
 | 분류 | 도구 | 용도 |
 | :--- | :--- | :--- |
@@ -78,7 +78,7 @@
 ---
 ## 7. 기술 스택
 
-| 분류 | 기술 스택 (Tech Stack) | 상세 설명 |
+| 분류 | 기술 스택 | 상세 설명 |
 | :--- | :--- | :--- |
 | **Backend** | **Java 25**, **Spring Boot 4.0.0** | 최신 Java 런타임 및 Spring 환경 활용 |
 | **Frontend** | **Next.js 16.0**, **React 19.2** | 최신 App Router 및 React 서버 컴포넌트 활용 |
