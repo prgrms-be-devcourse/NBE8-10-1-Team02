@@ -33,7 +33,7 @@
 | **Language** | **TypeScript 5.x** | 정적 타입을 통한 프론트엔드 코드 안정성 확보 |
 | **Styling** | **Tailwind CSS 4.0** | 최신 v4 엔진 기반의 유틸리티 퍼스트 스타일링 |
 | **ORM / DB** | **Spring Data JPA**, **H2** | 객체 중심 데이터 설계 및 인메모리 DB 활용 |
-| **Build Tool** | **Gradle**, **NPM** | 백엔드(Kotlin DSL) 및 프론트엔드 의존성 관리 |
+| **Build Tool** | **Gradle**, **NPM** | 백엔드 및 프론트엔드 의존성 관리 |
 
 ---
 
