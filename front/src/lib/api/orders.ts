@@ -11,8 +11,8 @@ export const createOrder = (
     body: JSON.stringify(req),
   });
 };
+
 // src/lib/api/orders.ts
-import { apiFetch } from "@/lib/api/client";
 import type {
   OrderListRes,
   OrderDetailResDto,
