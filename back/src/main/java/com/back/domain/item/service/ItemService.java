@@ -46,6 +46,11 @@ public class ItemService {
         return new ItemResponse(saved);
     }
 
+    public ItemResponse createWithImageUrl(String name, int price, String imageUrl) {
+        Item item = new Item(name, price, imageUrl);
+        return new ItemResponse(itemRepository.save(item));
+    }
+
     @Transactional
     public ItemResponse modify(int id, String itemName, int price, MultipartFile image) {
         Item item = itemRepository.findById(id)
@@ -72,5 +77,9 @@ public class ItemService {
         itemRepository.delete(item);
 
         return new ItemResponse(item);
+    }
+
+    public long count() {
+        return itemRepository.count();
     }
 }
