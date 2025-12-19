@@ -35,3 +35,6 @@ body {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+@utility font-holtwood {
+  font-family: "Holtwood One SC", serif;
+}
