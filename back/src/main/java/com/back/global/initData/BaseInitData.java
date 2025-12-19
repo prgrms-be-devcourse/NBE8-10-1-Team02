@@ -40,25 +40,25 @@ public class BaseInitData {
         ItemResponse item1 = itemService.createWithImageUrl(
                 "아메리카노",
                 2000,
-                "/images/americano.png"
+                "/uploads/americano.png"
         );
 
         ItemResponse item2 = itemService.createWithImageUrl(
                 "커피콩",
                 5000,
-                "/images/coffeeBean.png"
+                "/uploads/coffeeBean.png"
         );
 
         ItemResponse item3 = itemService.createWithImageUrl(
                 "카페라떼",
                 3500,
-                "/images/cafeLatte.png"
+                "/uploads/cafeLatte.png"
         );
 
         ItemResponse item4 = itemService.createWithImageUrl(
                 "망고스무디",
                 4500,
-                "/images/mangoSmeethie.png"
+                "/uploads/mangoSmoothie.png"
         );
 
         List<OrderItemRequest> orderItems1 = new ArrayList<>();
