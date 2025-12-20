@@ -54,13 +54,12 @@
 
 ---
 
-## 5. 팀원 소개
-| 이름 | 역할 | 작업 내용 |
-| :--- | :--- | :--- |
-| 원수현(팀장) | BE·FE |  |
-| 김경재 | BE·FE |  |
-| 김현진 | BE·FE | 메인 페이지 구성, 이메일 주문 조회, 삭제 기능 구현 |
-| 송찬의 | BE·FE |  |
+## 팀원 소개
+
+| <img src="https://github.com/suyeonTech.png" width="120"> | <img src="https://github.com/MADUPAL.png" width="120"> | <img src="https://github.com/rgw65206-sketch.png" width="120"> | <img src="https://github.com/dforce103.png" width="120"> |
+| :---: | :---: | :---: | :---: |
+| **원수현(팀장)** | **김경재** | **김현진** | **송찬의** |
+| **FE·BE** | **FE·BE** | **FE·BE** | **FE·BE** |
 
 ---
 
@@ -99,10 +98,10 @@
 | 기능 | HTTP | 경로 | 담당 |
 | :--- | :---: | :--- | :--- |
 | 메인 페이지 | - | `/` | 김현진 |
-| 주문 페이지 진입 | `GET` | `/items` | 팀원 |
-| 주문하기 | `POST` | `/orders` | 팀원 |
+| 주문 페이지 진입 | `GET` | `/items` | 김경재 |
+| 주문하기 | `POST` | `/orders` | 송찬의 |
 | 내 주문 확인 | `GET` | `/orders?email={email}` | 김현진 |
-| 주문 상세 | `GET` | `/orders/{id}` | 팀원 |
-| 주문 수정 | `PUT` | `/orders/{id}` | 팀원 |
+| 주문 상세 | `GET` | `/orders/{id}` | 송찬의 |
+| 주문 수정 | `PUT` | `/orders/{id}` | 송찬의 |
 | 주문 삭제 | `DELETE` | `/orders/{id}` | 김현진 |
-| 관리자 페이지 | `GET` | `/admin/orders` | 팀원 |
+| 관리자 페이지 | `GET` | `/admin/orders` | 원수연 |
