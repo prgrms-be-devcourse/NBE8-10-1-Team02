@@ -54,7 +54,7 @@
 
 ---
 
-## 팀원 소개
+## 5. 팀원 소개
 
 | <img src="https://github.com/suyeonTech.png" width="120"> | <img src="https://github.com/MADUPAL.png" width="120"> | <img src="https://github.com/rgw65206-sketch.png" width="120"> | <img src="https://github.com/dforce103.png" width="120"> |
 | :---: | :---: | :---: | :---: |
