@@ -5,6 +5,7 @@ import { useState, useCallback, useMemo } from "react";
 import type { OrderDto, OrderDetailResDto, OrderUpdateReqDto } from "@/lib/types/order";
 import { fetchOrdersByEmail, fetchOrderDetail, updateOrder, deleteOrder } from "@/lib/api/orders";
 import { parseErrorMessages } from "./utils/errorUtils";
+import { canModifyOrder } from "./utils/orderTimeUtils";
 
 import OrdersSearchBar from "./components/OrderSearchBar"
 import OrdersListPanel from "./components/OrdersListPanel"
@@ -114,7 +115,13 @@ export default function Page() {
   }, [selectedOrderId, loadDetail]);
 
   const handleSave = useCallback(async () => {
-    if (!selectedOrderId || !form) return;
+    if (!selectedOrderId || !form || !detail) return;
+
+    // 주문 수정 가능 시간 체크
+    if (!canModifyOrder(detail.createDate)) {
+      setErrorMsg(["주문 수정 기한이 만료되었습니다. 다음날 14시 이후에는 주문을 수정할 수 없습니다."]);
+      return;
+    }
 
     setSaving(true);
     setErrorMsg([]);
@@ -134,7 +141,7 @@ export default function Page() {
     } finally {
       setSaving(false);
     }
-  }, [selectedOrderId, form, email, loadDetail]);
+  }, [selectedOrderId, form, email, loadDetail, detail]);
 
   const handleRollback = useCallback(() => {
     if (!detail) return;
@@ -153,6 +160,12 @@ export default function Page() {
 
   const handleDeleteAll = useCallback(async () => {
     if (!selectedOrderId || !form || !detail || !email.trim()) return;
+
+    // 주문 수정 가능 시간 체크
+    if (!canModifyOrder(detail.createDate)) {
+      setErrorMsg(["주문 삭제 기한이 만료되었습니다. 다음날 14시 이후에는 주문을 삭제할 수 없습니다."]);
+      return;
+    }
 
     // 확인 알림
     const confirmed = window.confirm(
