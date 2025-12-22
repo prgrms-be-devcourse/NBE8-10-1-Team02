@@ -5,7 +5,7 @@ import { ItemDto } from "@/lib/types/item";
 import toImageSrc from "@/lib/utils/toImageSrc";
 import { useEffect, useState } from "react";
 
-export default function ItemList({addToCart}: {addToCart: (Item: ItemDto) => void}) {
+export default function ItemList({addToCart, textColor = "text-white", buttonName = "담기"}: {addToCart: (Item: ItemDto) => void; textColor?: string; buttonName?: string}) {
   const [items, setItems] = useState<ItemDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -69,7 +69,7 @@ export default function ItemList({addToCart}: {addToCart: (Item: ItemDto) => voi
                   {/* 텍스트 */}
                   <div className="min-w-0 flex-1">
                     <div className="truncate font-medium">{item.itemName}</div>
-                    <div className="text-sm text-white">{item.price.toLocaleString()} won</div>
+                    <div className={`text-sm ${textColor}`}>{item.price.toLocaleString()} won</div>
                   </div>
               
                   {/* 버튼 */}
@@ -77,7 +77,7 @@ export default function ItemList({addToCart}: {addToCart: (Item: ItemDto) => voi
                     onClick={() => addToCart(item)}
                     className="shrink-0 rounded-lg border px-3 py-1 text-sm hover:bg-white hover:text-black"
                   >
-                    담기
+                    {buttonName}
                   </button>
                 </div>
               </li>

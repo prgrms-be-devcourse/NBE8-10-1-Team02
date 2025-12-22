@@ -3,6 +3,8 @@
 import {useEffect, useRef, useState} from "react";
 import {Order} from "@/lib/types/order";
 
+import Link from "next/link";
+
 
 export default function Page() {
     const [scale, setScale] = useState(1);
@@ -93,6 +95,24 @@ export default function Page() {
                         <div ref={loadMoreRef} className="h-10" />
                     </div>
                 </div>
+            <Link
+                href="/admin/items"
+                className="
+    fixed
+    bottom-6
+    left-6
+    bg-black
+    text-white
+    text-[20px]
+    px-6
+    py-3
+    rounded-full
+    shadow-lg
+    hover:opacity-90
+  "
+            >
+                상품등록 및 수정
+            </Link>
             </div>
 
     );
