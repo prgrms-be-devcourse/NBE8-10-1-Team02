@@ -1,6 +1,7 @@
 "use client";
 
 import type { OrderDetailResDto, OrderUpdateReqDto } from "@/lib/types/order";
+import { getOrderModifyInfo } from "../utils/orderTimeUtils";
 
 type Props = {
   selectedOrderId: number | null;
@@ -113,6 +114,10 @@ export default function OrderDetailForm({
     return sum + it.price * qty;
   }, 0);
 
+  // 주문 수정 가능 여부 확인
+  const { canModify, expiresAtFormatted } = getOrderModifyInfo(detail.createDate);
+  const isDisabled = saving || !canModify;
+
   return (
     <div className="flex-1 rounded-[28px] bg-gradient-to-br from-neutral-50 to-neutral-100 text-neutral-800 shadow-[0_10px_30px_rgba(0,0,0,0.35)] overflow-auto p-6">
       <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
@@ -138,6 +143,22 @@ export default function OrderDetailForm({
             </div>
           </div>
         </div>
+
+        {!canModify && (
+          <div className="rounded-xl border-2 border-orange-300 bg-orange-50/90 p-4 text-orange-800 text-sm font-medium shadow-[0_4px_12px_rgba(249,115,22,0.15)]">
+            <div className="flex items-start gap-2">
+              <span className="text-orange-500 mt-0.5">⏰</span>
+              <div className="flex-1">
+                <div className="font-semibold mb-1">주문 수정 기한이 만료되었습니다</div>
+                <div className="text-orange-700 text-xs">
+                  주문 수정 가능 시간({expiresAtFormatted})이 지나서 더 이상 수정하거나 삭제할 수 없습니다.
+                  <br />
+                  주문은 14시부터 다음날 14시까지 합산되어 처리되므로, 그 이후에는 변경이 불가능합니다.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {errorMsg.length > 0 ? (
           <div className="rounded-xl border-2 border-red-300 bg-red-50/90 p-4 text-red-700 text-sm font-medium shadow-[0_4px_12px_rgba(239,68,68,0.15)]">
@@ -174,7 +195,7 @@ export default function OrderDetailForm({
               type="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              disabled={saving}
+              disabled={isDisabled}
               placeholder="example@email.com"
               aria-label="이메일 주소"
             />
@@ -192,7 +213,7 @@ export default function OrderDetailForm({
               type="text"
               value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
-              disabled={saving}
+              disabled={isDisabled}
               placeholder="서울시 강남구 테헤란로..."
               aria-label="배송 주소"
             />
@@ -210,7 +231,7 @@ export default function OrderDetailForm({
               type="text"
               value={form.postcode}
               onChange={(e) => setForm({ ...form, postcode: e.target.value })}
-              disabled={saving}
+              disabled={isDisabled}
               placeholder="12345"
               aria-label="우편번호"
             />
@@ -268,7 +289,7 @@ export default function OrderDetailForm({
                             setQty(it.itemId, qty - 1);
                           }
                         }}
-                        disabled={saving}
+                        disabled={isDisabled}
                         className="px-2 py-1 text-sm text-black hover:bg-black/5 disabled:opacity-50"
                         aria-label="수량 감소"
                       >
@@ -282,7 +303,7 @@ export default function OrderDetailForm({
                       <button
                         type="button"
                         onClick={() => setQty(it.itemId, qty + 1)}
-                        disabled={saving}
+                        disabled={isDisabled}
                         className="px-2 py-1 text-sm text-black hover:bg-black/5 disabled:opacity-50"
                         aria-label="수량 증가"
                       >
@@ -293,7 +314,7 @@ export default function OrderDetailForm({
                     <button
                       type="button"
                       onClick={() => handleDeleteItem(it.itemId)}
-                      disabled={saving}
+                      disabled={isDisabled}
                       className="rounded-lg border border-black/20 bg-white px-2 py-1 text-sm text-black hover:bg-black/5 disabled:opacity-50"
                       aria-label="항목 삭제"
                       title="삭제"
@@ -324,7 +345,7 @@ export default function OrderDetailForm({
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
               focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
-            disabled={saving}
+            disabled={isDisabled}
             onClick={onDeleteAll}
             aria-label="주문 삭제"
           >
@@ -337,7 +358,7 @@ export default function OrderDetailForm({
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
               focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
-            disabled={saving}
+            disabled={isDisabled}
             onClick={onRollback}
             aria-label="변경사항 초기화"
           >
@@ -350,7 +371,7 @@ export default function OrderDetailForm({
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
               focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
-            disabled={saving}
+            disabled={isDisabled}
             onClick={onSave}
             aria-label="주문 정보 저장"
           >
