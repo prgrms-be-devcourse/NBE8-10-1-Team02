@@ -58,7 +58,7 @@
 
 | <img src="https://github.com/suyeonTech.png" width="120"> | <img src="https://github.com/MADUPAL.png" width="120"> | <img src="https://github.com/rgw65206-sketch.png" width="120"> | <img src="https://github.com/dforce103.png" width="120"> |
 | :---: | :---: | :---: | :---: |
-| **원수현(팀장)** | **김경재** | **김현진** | **송찬의** |
+| **원수연(팀장)** | **김경재** | **김현진** | **송찬의** |
 | **FE·BE** | **FE·BE** | **FE·BE** | **FE·BE** |
 
 ---
